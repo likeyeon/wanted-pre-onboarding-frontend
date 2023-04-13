@@ -70,7 +70,7 @@ const AuthForm = ({ authType }) => {
         headers: { "Content-Type": "application/json" },
       })
         .then((res) => {
-          localStorage.setItem("access-token", res.data.access_token);
+          localStorage.setItem("access_token", res.data.access_token);
           navigate("/todo");
         })
         .catch((err) => {

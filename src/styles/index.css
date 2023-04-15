@@ -1,0 +1,7 @@
+/* src/index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 추가적인 스타일 작성 또는 커스터마이징 */

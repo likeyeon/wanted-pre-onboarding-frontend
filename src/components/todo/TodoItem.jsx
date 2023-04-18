@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/solid";
@@ -8,7 +8,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   const [isChecked, setIsChecked] = useState(isCompleted); // 체크 여부
   const [isEdit, setIsEdit] = useState(false); //수정 상태
-  const [editedTodo, setEditedTodo] = useState(text); //수정
+  const [editedTodo, setEditedTodo] = useState(text); //수정된 텍스트
 
   /* todo 체크 표시 */
   const checkTodo = () => {
@@ -17,7 +17,7 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   };
 
   /* todo 삭제 */
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     let token = localStorage.getItem("access_token");
     try {
       await axios.delete(
@@ -32,7 +32,7 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [setTodos, id, todos]);
 
   /* todo 수정버튼 */
   const handleEdit = () => {
@@ -56,31 +56,34 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   };
 
   /* todo 수정 제출 */
-  const updateTodo = async (isChecked) => {
-    let token = localStorage.getItem("access_token");
-    try {
-      await axios.put(
-        `https://www.pre-onboarding-selection-task.shop/todos/${id}`,
-        { todo: editedTodo, isCompleted: isChecked },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      setTodos(
-        todos.map((it) =>
-          it.id === id
-            ? { ...it, todo: editedTodo, isCompleted: isChecked }
-            : it
-        )
-      );
-      setIsEdit(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const updateTodo = useCallback(
+    async (isChecked) => {
+      let token = localStorage.getItem("access_token");
+      try {
+        await axios.put(
+          `https://www.pre-onboarding-selection-task.shop/todos/${id}`,
+          { todo: editedTodo, isCompleted: isChecked },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        setTodos(
+          todos.map((it) =>
+            it.id === id
+              ? { ...it, todo: editedTodo, isCompleted: isChecked }
+              : it
+          )
+        );
+        setIsEdit(false);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [setTodos, editedTodo, setIsEdit, id, todos]
+  );
 
   return (
     <>
@@ -98,7 +101,7 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
               data-testid="modify-input"
               value={editedTodo}
               onChange={editTodo}
-              className="w-full"
+              className="w-full bg-blue-100"
             />
           ) : (
             <span className="w-full">{item.todo}</span>
@@ -128,4 +131,4 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   );
 };
 
-export { TodoItem };
+export default React.memo(TodoItem);

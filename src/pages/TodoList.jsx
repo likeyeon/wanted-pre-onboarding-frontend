@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Header } from "../components/common/Header";
+import { Container } from "../components/common/Container";
 import { useNavigate } from "react-router-dom";
-import { TodoItem } from "../components/todo/TodoItem";
+import TodoItem from "../components/todo/TodoItem";
 import axios from "axios";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
@@ -24,7 +25,7 @@ const TodoList = () => {
   };
 
   /* 투두리스트 얻기 함수 */
-  const getTodo = async () => {
+  const getTodo = useCallback(async () => {
     try {
       const response = await axios.get(
         "https://www.pre-onboarding-selection-task.shop/todos",
@@ -38,33 +39,31 @@ const TodoList = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [setTodos, token]);
 
   /* 투두리스트 추가 함수 */
-  const addTodo = async (e) => {
-    e.preventDefault();
-    if (todoInput === "") {
-      alert("할 일을 입력해주세요.");
-      return;
-    }
-    try {
-      const res = await axios.post(
-        "https://www.pre-onboarding-selection-task.shop/todos",
-        { todo: todoInput },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      await getTodo(res);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-    setTodoInput("");
-  };
+  const addTodo = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post(
+          "https://www.pre-onboarding-selection-task.shop/todos",
+          { todo: todoInput },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        await getTodo(res);
+      } catch (err) {
+        alert(err);
+      }
+      setTodoInput("");
+    },
+    [getTodo, todoInput, token]
+  );
 
   /* 로그아웃 */
   const handleLogout = () => {
@@ -87,7 +86,7 @@ const TodoList = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen ">
+    <Container>
       <Header authType={"todo"} handleLogout={handleLogout} />
       <div className="w-96 p-8 bg-white drop-shadow-xl rounded-xl">
         <div className="flex justify-between">
@@ -108,6 +107,7 @@ const TodoList = () => {
             <button
               data-testid="new-todo-add-button"
               type={"submit"}
+              disabled={todoInput.length > 0 ? false : true}
               className={
                 todoInput.length > 0
                   ? "bg-blue-600 p-3 rounded"
@@ -134,7 +134,7 @@ const TodoList = () => {
             ))}
         </ul>
       </div>
-    </div>
+    </Container>
   );
 };
 

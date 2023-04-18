@@ -1,5 +1,6 @@
 import { AuthForm } from "../components/auth/AuthForm";
 import { Header } from "../components/common/Header";
+import { Container } from "../components/common/Container";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -13,13 +14,13 @@ const SignIn = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <Container>
       <Header authType={"signin"} />
       <AuthForm
         authType={"signin"}
         className="flex items-center justify-center"
       />
-    </div>
+    </Container>
   );
 };
 

@@ -47,6 +47,8 @@ const AuthForm = ({ authType }) => {
       setIsValid({ ...isValid, isPassword: true });
     }
   };
+
+  /* 회원가입, 로그인 */
   const onSubmit = (e) => {
     e.preventDefault();
     if (authType === "signup") {

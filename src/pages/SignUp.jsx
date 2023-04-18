@@ -1,4 +1,5 @@
 import { AuthForm } from "../components/auth/AuthForm";
+import { Header } from "../components/common/Header";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -12,8 +13,12 @@ const SignUp = () => {
   }, [navigate]);
 
   return (
-    <div>
-      <AuthForm authType={"signup"} />
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Header authType={"signup"} />
+      <AuthForm
+        authType={"signup"}
+        className="flex items-center justify-center"
+      />
     </div>
   );
 };

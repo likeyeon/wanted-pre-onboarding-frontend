@@ -1,4 +1,5 @@
 import { AuthForm } from "../components/auth/AuthForm";
+import { Header } from "../components/common/Header";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -12,9 +13,12 @@ const SignIn = () => {
   }, [navigate]);
 
   return (
-    <div>
-      {/* {authenticated ? <Navigate to="/todo"></Navigate> : <h1>로그인</h1>} */}
-      <AuthForm authType={"signin"} />
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Header authType={"signin"} />
+      <AuthForm
+        authType={"signin"}
+        className="flex items-center justify-center"
+      />
     </div>
   );
 };

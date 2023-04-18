@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "../common/Button";
 import axios from "axios";
 
@@ -85,33 +85,62 @@ const AuthForm = ({ authType }) => {
 
   return (
     <div>
-      <form>
-        <label htmlFor="email">이메일 : </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          data-testid="email-input"
-          onChange={handleEmail}
-          value={email}
-        ></input>
-        <p>{message.emailMessage}</p>
-        <label htmlFor="password">비밀번호 : </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          data-testid="password-input"
-          onChange={handlePassword}
-          value={password}
-        ></input>
-        <p>{message.passwordMessage}</p>
+      <form className="w-96 p-8 bg-white drop-shadow-xl rounded-xl">
+        <div>
+          <label htmlFor="email" className="mb-1 font-semibold text-base block">
+            이메일
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            data-testid="email-input"
+            onChange={handleEmail}
+            placeholder="이메일을 입력해주세요."
+            value={email}
+            className="border p-3 border-gray-300 focus:border-blue-600 w-full rounded placeholder:text-sm"
+          ></input>
+          <p className="text-sm mt-1 text-red-500">{message.emailMessage}</p>
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="mt-4 mb-1 font-semibold text-base block"
+          >
+            비밀번호
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            data-testid="password-input"
+            onChange={handlePassword}
+            placeholder="비밀번호를 입력해주세요."
+            value={password}
+            className="border p-3 border-gray-300 focus:border-blue-600 w-full rounded placeholder:text-sm"
+          ></input>
+          <p className="text-sm mt-1 text-red-500">{message.passwordMessage}</p>
+        </div>
         <Button
           authType={authType}
           onClick={onSubmit}
           disabled={!(isValid.isEmail && isValid.isPassword)}
         />
       </form>
+      <div className="flex justify-center mt-5">
+        {authType === "signin" ? (
+          <>
+            <span className="text-sm text-gray-400">
+              계정이 없으신가요?&nbsp; &nbsp;
+            </span>
+            <span className="text-sm text-blue-600">
+              <Link to="/signup">가입하기</Link>
+            </span>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };

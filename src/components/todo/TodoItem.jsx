@@ -1,9 +1,11 @@
 import { useState } from "react";
 import axios from "axios";
+import { PencilIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import { CheckIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
-  // console.log(isChecked);
-  // console.log(isCompleted);
   const [isChecked, setIsChecked] = useState(isCompleted); // 체크 여부
   const [isEdit, setIsEdit] = useState(false); //수정 상태
   const [editedTodo, setEditedTodo] = useState(text); //수정
@@ -57,7 +59,7 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   const updateTodo = async (isChecked) => {
     let token = localStorage.getItem("access_token");
     try {
-      const res = await axios.put(
+      await axios.put(
         `https://www.pre-onboarding-selection-task.shop/todos/${id}`,
         { todo: editedTodo, isCompleted: isChecked },
         {
@@ -74,8 +76,6 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
             : it
         )
       );
-      console.log(isCompleted);
-      console.log(res);
       setIsEdit(false);
     } catch (err) {
       console.log(err);
@@ -83,46 +83,48 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
   };
 
   return (
-    <div>
-      <li>
-        <label>
+    <>
+      <li className="list-none w-full flex p-2 rounded bg-blue-100 my-2">
+        <label className="flex w-full items-center">
           <input
             type="checkbox"
             onChange={checkTodo}
             checked={isChecked}
             value={id}
+            className="w-5 h-5 mr-1"
           />
           {isEdit ? (
             <input
               data-testid="modify-input"
               value={editedTodo}
               onChange={editTodo}
+              className="w-full"
             />
           ) : (
-            <span>{item.todo}</span>
+            <span className="w-full">{item.todo}</span>
           )}
         </label>
         {isEdit ? (
-          <>
+          <div className="flex">
             <button data-testid="submit-button" onClick={handleSubmit}>
-              제출
+              <CheckIcon className="w-5 h-5 mr-1" />
             </button>
             <button data-testid="cancel-button" onClick={handleCancle}>
-              취소
+              <XMarkIcon className="w-5 h-5" />
             </button>
-          </>
+          </div>
         ) : (
-          <>
+          <div className="flex">
             <button data-testid="modify-button" onClick={handleEdit}>
-              수정
+              <PencilIcon className="w-5 h-5 mr-1" />
             </button>
             <button data-testid="delete-button" onClick={handleDelete}>
-              삭제
+              <TrashIcon className="w-5 h-5" />
             </button>
-          </>
+          </div>
         )}
       </li>
-    </div>
+    </>
   );
 };
 

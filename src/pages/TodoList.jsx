@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { Header } from "../components/common/Header";
 import { useNavigate } from "react-router-dom";
 import { TodoItem } from "../components/todo/TodoItem";
 import axios from "axios";
+import { PlusIcon } from "@heroicons/react/24/solid";
 
 const TodoList = () => {
   const [todoInput, setTodoInput] = useState(""); // 투두리스트 텍스트 입력
@@ -72,39 +74,67 @@ const TodoList = () => {
     }
   };
 
+  /* 날짜 */
+  const getDate = () => {
+    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const dayOfWeek = daysOfWeek[date.getDay()];
+
+    return `${year}.${month}.${day} ${dayOfWeek}`;
+  };
+
   return (
-    <>
-      <div>
-        <h1>Todo</h1>
-        <button onClick={handleLogout}>로그아웃</button>
-        <form onSubmit={addTodo}>
-          <input
-            data-testid="new-todo-input"
-            value={todoInput}
-            onChange={inputTodo}
-            placeholder="할 일을 입력해주세요."
-          />
-          <button data-testid="new-todo-add-button" type={"submit"}>
-            추가
-          </button>
-        </form>
-      </div>
-      <div>
-        {todos &&
-          todos.map((item) => (
-            <TodoItem
-              text={item.todo}
-              id={item.id}
-              key={item.id}
-              userId={item.userId}
-              item={item}
-              todos={todos}
-              isCompleted={item.isCompleted}
-              setTodos={setTodos}
+    <div className="flex flex-col items-center justify-center h-screen ">
+      <Header authType={"todo"} handleLogout={handleLogout} />
+      <div className="w-96 p-8 bg-white drop-shadow-xl rounded-xl">
+        <div className="flex justify-between">
+          <div>
+            <div className="font-bold text-2xl">{getDate()}</div>
+            <div className="text-gray-400 text-sm">{todos.length} tasks</div>
+          </div>
+        </div>
+        <div>
+          <form onSubmit={addTodo} className="flex justify-between my-3">
+            <input
+              data-testid="new-todo-input"
+              value={todoInput}
+              onChange={inputTodo}
+              placeholder="오늘 할 일을 적어볼까요?"
+              className="border p-2 border-gray-300 focus:border-blue-600 w-5/6 rounded placeholder:text-sm"
             />
-          ))}
+            <button
+              data-testid="new-todo-add-button"
+              type={"submit"}
+              className={
+                todoInput.length > 0
+                  ? "bg-blue-600 p-3 rounded"
+                  : "bg-gray-300 p-3 rounded"
+              }
+            >
+              <PlusIcon className="w-5 h-5 text-white" />
+            </button>
+          </form>
+        </div>
+        <ul>
+          {todos &&
+            todos.map((item) => (
+              <TodoItem
+                text={item.todo}
+                id={item.id}
+                key={item.id}
+                userId={item.userId}
+                item={item}
+                todos={todos}
+                isCompleted={item.isCompleted}
+                setTodos={setTodos}
+              />
+            ))}
+        </ul>
       </div>
-    </>
+    </div>
   );
 };
 

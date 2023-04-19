@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Button } from "../common/Button";
 import axios from "axios";
 
+/* 회원가입, 로그인 폼 컴포넌트 */
 const AuthForm = ({ authType }) => {
   const navigate = useNavigate();
   /* 이메일, 비밀번호 입력 값 */
@@ -32,6 +33,7 @@ const AuthForm = ({ authType }) => {
       setIsValid({ ...isValid, isEmail: true });
     }
   };
+
   /* 비밀번호 유효성 검사 */
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -119,6 +121,7 @@ const AuthForm = ({ authType }) => {
             onChange={handlePassword}
             placeholder="비밀번호를 입력해주세요."
             value={password}
+            autoComplete="off"
             className="border p-3 border-gray-300 focus:border-blue-600 w-full rounded placeholder:text-sm"
           ></input>
           <p className="text-sm mt-1 text-red-500">{message.passwordMessage}</p>

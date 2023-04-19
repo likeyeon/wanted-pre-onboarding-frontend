@@ -4,6 +4,7 @@ import { Container } from "../components/common/Container";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+/* 회원가입 페이지 */
 const SignUp = () => {
   const navigate = useNavigate();
 

@@ -5,10 +5,11 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
+/* todo 리스트 개별 목록 */
+const TodoItem = ({ isCompleted, id, todos, setTodos, item }) => {
   const [isChecked, setIsChecked] = useState(isCompleted); // 체크 여부
   const [isEdit, setIsEdit] = useState(false); //수정 상태
-  const [editedTodo, setEditedTodo] = useState(text); //수정된 텍스트
+  const [editedTodo, setEditedTodo] = useState(item.todo); //수정된 텍스트
 
   /* todo 체크 표시 */
   const checkTodo = () => {
@@ -34,28 +35,24 @@ const TodoItem = ({ text, isCompleted, id, todos, setTodos, item }) => {
     }
   }, [setTodos, id, todos]);
 
-  /* todo 수정버튼 */
+  /* todo 수정, 취소, 제출 */
   const handleEdit = () => {
     setIsEdit(true);
   };
 
-  /* todo 수정 */
   const editTodo = (e) => {
     setEditedTodo(e.target.value);
   };
 
-  /* todo 수정 취소 */
   const handleCancle = () => {
     setIsEdit(false);
     setEditedTodo(item.todo);
   };
 
-  /* todo 제출 버튼 */
   const handleSubmit = () => {
     updateTodo(isChecked);
   };
 
-  /* todo 수정 제출 */
   const updateTodo = useCallback(
     async (isChecked) => {
       let token = localStorage.getItem("access_token");

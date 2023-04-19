@@ -1,3 +1,4 @@
+/* 로그인, 회원가입 공통 버튼 */
 const button = "font-bold w-full py-3 mt-7 text-lg rounded-md";
 
 const Button = ({ authType, onClick, disabled = false }) => {

@@ -6,6 +6,7 @@ import TodoItem from "../components/todo/TodoItem";
 import axios from "axios";
 import { PlusIcon } from "@heroicons/react/24/solid";
 
+/* todo 리스트 페이지 */
 const TodoList = () => {
   const [todoInput, setTodoInput] = useState(""); // 투두리스트 텍스트 입력
   const [todos, setTodos] = useState([]); // 투두리스트 목록들
@@ -122,7 +123,6 @@ const TodoList = () => {
           {todos &&
             todos.map((item) => (
               <TodoItem
-                text={item.todo}
                 id={item.id}
                 key={item.id}
                 userId={item.userId}

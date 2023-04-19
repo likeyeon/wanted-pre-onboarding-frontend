@@ -1,5 +1,6 @@
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
 
+/* 헤더 컴포넌트 */
 const Header = ({ authType, handleLogout }) => {
   let title = "";
 

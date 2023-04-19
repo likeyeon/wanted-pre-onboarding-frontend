@@ -8,7 +8,7 @@
 
 ```
 저장소 클론
-$ git clone https://github.com/chaehaeun/wanted-pre-onboarding-frontend.git
+$ git clone https://github.com/likeyeon/wanted-pre-onboarding-frontend.git
 패키지 설치
 $ npm install
 로컬 환경 실행

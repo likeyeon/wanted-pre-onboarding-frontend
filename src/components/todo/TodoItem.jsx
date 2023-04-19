@@ -101,7 +101,9 @@ const TodoItem = ({ isCompleted, id, todos, setTodos, item }) => {
               className="w-full bg-blue-100"
             />
           ) : (
-            <span className="w-full">{item.todo}</span>
+            <span className={isChecked ? "w-full line-through" : "w-full"}>
+              {item.todo}
+            </span>
           )}
         </label>
         {isEdit ? (
